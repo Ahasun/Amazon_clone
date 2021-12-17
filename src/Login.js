@@ -1,23 +1,24 @@
 import React, { useState } from 'react'
 import './Login.css'
 import { Link } from 'react-router-dom'
-import {useHistory,useNavigate} from 'react-router-dom'
+import {useNavigate} from 'react-router-dom'
 import { auth } from './firebase'
-import { createUserWithEmailAndPassword } from 'firebase/auth'
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth'
 
 
 function Login() {
   
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  const history = useNavigate()
+  const navigate = useNavigate()
 
   const signIn = (e) => {
     e.preventDefault()
-
-
-
-    // Some fancy firebase login shitttttt
+    signInWithEmailAndPassword(auth,email,password)
+      .then((userCredential) =>{
+        navigate('/')
+      } )
+      .catch((error) => alert(error.message));
   }
 
   const register = (e) => {
@@ -28,7 +29,8 @@ function Login() {
         createUserWithEmailAndPassword(auth, email, password)
             .then((userCredential) => {
               // Signed in 
-              history('/')
+              if(userCredential)
+                navigate('/')
               // ...
             })
             .catch((error) => alert(error.message));

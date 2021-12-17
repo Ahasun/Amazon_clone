@@ -11,6 +11,8 @@ function CheckoutProduct({ id, image, title, price, rating, hideButton }) {
       type: 'REMOVE_FROM_BASKET',
       id: id,
     })
+
+    console.log(basket.type,basket.id)
   }
 
   return (
